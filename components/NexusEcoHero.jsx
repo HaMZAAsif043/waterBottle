@@ -166,9 +166,10 @@ export default function NexusEcoHero() {
               {/* Follows the mouse cursor seamlessly */}
               <MouseRig>
                 {/* Floating up and down infinitely */}
-                <Float speed={4.5} rotationIntensity={0.8} floatIntensity={3.5} floatingRange={[-1.2, 1.2]}>
+                {/* Ensure the floatingRange doesn't drop below the shadow plane */}
+                <Float speed={4.5} rotationIntensity={0.8} floatIntensity={3.5} floatingRange={[0, 1.5]}>
                   {/* <Center> fixes any absurd pivot offsets inside the 3D model */}
-                  <Center position={[0, -0.5, 0]}>
+                  <Center position={[0, -1, 0]}>
                     <group scale={12}>
                       <Model />
                     </group>
@@ -176,7 +177,8 @@ export default function NexusEcoHero() {
                 </Float>
               </MouseRig>
               
-              <ContactShadows position={[0, -4, 0]} opacity={0.4} scale={10} blur={2} far={4} />
+              {/* Ground shadow plane positioned below the absolute lowest bounds of the float */}
+              <ContactShadows position={[0, -4.5, 0]} opacity={0.4} scale={10} blur={2} far={4} />
               <Environment preset="city" />
             </Canvas>
           </div>
