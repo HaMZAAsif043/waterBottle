@@ -148,7 +148,7 @@ export default function NexusEcoHero() {
         ))}
 
         {/* ── TOP LABEL ── */}
-        <p className="text-center font-medium text-[#4a6fa5] tracking-[.06em] pt-[clamp(16px,3vw,32px)] opacity-0 [animation:fadeSlideUp_.8s_.2s_forwards] text-[clamp(11px,1.2vw,14px)]">The Hero Bottle – 500ml Starter Kit</p>
+        {/* <p className="text-center font-medium text-[#4a6fa5] tracking-[.06em] pt-[clamp(16px,3vw,32px)] opacity-0 [animation:fadeSlideUp_.8s_.2s_forwards] text-[clamp(11px,1.2vw,14px)]">The Hero Bottle – 500ml Starter Kit</p> */}
 
         {/* ── HEADLINE ── */}
         <div className="text-center px-[clamp(16px,5vw,80px)] pt-[clamp(8px,1.5vw,16px)] pb-0 leading-[1.1] opacity-0 [animation:fadeSlideUp_.9s_.45s_forwards]">
@@ -158,7 +158,8 @@ export default function NexusEcoHero() {
 
         {/* ── PRODUCT STAGE ── */}
         <div className="flex items-end justify-center gap-[clamp(16px,3vw,48px)] py-[clamp(10px,2vw,24px)] px-0 flex-1 min-h-0 relative z-10 opacity-0 [animation:fadeSlideUp_1s_.75s_forwards]">
-          <div className="flex flex-col items-center justify-center w-[clamp(300px,50vw,700px)] h-full max-h-[600px] relative z-20">
+          {/* Removed max-h-[600px] to allow the 3D canvas to expand further down without getting cut off */}
+          <div className="flex flex-col items-center justify-center w-[clamp(300px,50vw,700px)] h-full w-full relative z-20">
             <Canvas camera={{ position: [0, 0, 15], fov: 45 }}>
               <ambientLight intensity={0.5} />
               <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
@@ -166,26 +167,24 @@ export default function NexusEcoHero() {
               {/* Follows the mouse cursor seamlessly */}
               <MouseRig>
                 {/* Floating up and down infinitely */}
-                {/* Ensure the floatingRange doesn't drop below the shadow plane */}
-                <Float speed={4.5} rotationIntensity={0.8} floatIntensity={3.5} floatingRange={[0, 1.5]}>
+                {/* Kept speed high, but reduced the vertical travel distance so it stays in frame */}
+                <Float speed={4.5} rotationIntensity={0.8} floatIntensity={1} floatingRange={[0, 0.8]}>
                   {/* <Center> fixes any absurd pivot offsets inside the 3D model */}
-                  <Center position={[0, -1, 0]}>
-                    <group scale={12}>
+                  <Center position={[0, -1.5, 0]}>
+                    <group scale={11}>
                       <Model />
                     </group>
                   </Center>
                 </Float>
               </MouseRig>
               
-              {/* Ground shadow plane positioned below the absolute lowest bounds of the float */}
-              <ContactShadows position={[0, -4.5, 0]} opacity={0.4} scale={10} blur={2} far={4} />
               <Environment preset="city" />
             </Canvas>
           </div>
         </div>
 
         {/* ── BOTTOM CAPTION ── */}
-        <p className="text-center font-medium text-[#4a6fa5] tracking-[.06em] pb-2 opacity-0 [animation:fadeSlideUp_.8s_1.1s_forwards] text-[clamp(11px,1.2vw,14px)]">The Hero Bottle – 500ml Starter Kit</p>
+        {/* <p className="text-center font-medium text-[#4a6fa5] tracking-[.06em] pb-2 opacity-0 [animation:fadeSlideUp_.8s_1.1s_forwards] text-[clamp(11px,1.2vw,14px)]">The Hero Bottle – 500ml Starter Kit</p> */}
 
         {/* ── FOOTER ── */}
         <div className="bg-[#0a1a2be0] backdrop-blur-md py-[clamp(10px,1.5vw,18px)] px-[clamp(16px,4vw,60px)] flex items-center flex-wrap gap-1.5 z-20 opacity-0 [animation:fadeSlideUp_.7s_1.3s_forwards]">
