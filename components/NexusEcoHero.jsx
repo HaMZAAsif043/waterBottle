@@ -96,7 +96,7 @@ export default function NexusEcoHero() {
       <div className="w-full h-screen max-h-screen relative overflow-hidden flex flex-col [font-family:'Montserrat',sans-serif] bg-[linear-gradient(160deg,#f0f6ff_0%,#e8f2fe_30%,#ddeeff_60%,#f5faff_100%)]">
 
         {/* ── WAVES ── */}
-        {/* <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 pointer-events-none">
           <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
             <path className="wave-gold"
               d="M800,520 C900,480 1000,420 1100,400 C1200,380 1300,420 1400,460 C1500,500 1550,560 1600,600"
@@ -109,7 +109,7 @@ export default function NexusEcoHero() {
               fill="none" stroke="#c9a000" strokeWidth="1" strokeLinecap="round" opacity=".25" />
 
             {/* Blue wave - upper left */}
-            {/* <path className="wave-blue"
+            <path className="wave-blue"
               d="M-60,380 C60,340 180,280 300,260 C420,240 540,280 660,320 C780,360 840,420 960,440 C1080,460 1150,440 1260,400"
               fill="none" stroke="#4a6fa5" strokeWidth="2.5" strokeLinecap="round" opacity=".5" />
             <path className="wave-blue"
@@ -117,17 +117,17 @@ export default function NexusEcoHero() {
               fill="none" stroke="#6b8cff" strokeWidth="1.8" strokeLinecap="round" opacity=".35" />
             <path className="wave-blue2"
               d="M-40,340 C80,300 200,240 320,220 C440,200 560,240 680,280 C800,320 880,390 1000,420"
-              fill="none" stroke="#5580cc" strokeWidth="1.2" strokeLinecap="round" opacity=".25" /> */}
+              fill="none" stroke="#5580cc" strokeWidth="1.2" strokeLinecap="round" opacity=".25" />
 
             {/* Secondary diagonals */}
-            {/* <path className="wave-blue"
+            <path className="wave-blue"
               d="M0,600 C120,560 240,500 360,490 C480,480 580,520 700,550"
               fill="none" stroke="#4a6fa5" strokeWidth="1" strokeLinecap="round" opacity=".2" />
             <path className="wave-gold"
               d="M400,120 C520,100 620,80 720,90 C820,100 920,140 1020,160"
               fill="none" stroke="#d4af37" strokeWidth="1.2" strokeLinecap="round" opacity=".28" />
           </svg>
-        </div>  */}
+        </div>
 
 
 
