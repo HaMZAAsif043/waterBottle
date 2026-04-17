@@ -198,7 +198,9 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
 void main() {
   vec4 color = vec4(0.0);
   mainImage(color, gl_FragCoord.xy);
-  gl_FragColor = color;
+  // Derive an alpha transparency based on line color intensity so it renders naturally against the page background
+  float intensity = max(color.r, max(color.g, color.b));
+  gl_FragColor = vec4(color.rgb, intensity * 2.0);
 }
 `;
 
@@ -310,7 +312,8 @@ export default function FloatingLines({
         const camera = new OrthographicCamera(-1, 1, 1, -1, 0, 1);
         camera.position.z = 1;
 
-        const renderer = new WebGLRenderer({ antialias: true, alpha: false });
+        const renderer = new WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setClearColor(0x000000, 0);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
         renderer.domElement.style.width = '100%';
         renderer.domElement.style.height = '100%';

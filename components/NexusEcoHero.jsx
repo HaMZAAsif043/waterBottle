@@ -1,8 +1,9 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, Suspense } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Environment, Float, ContactShadows, Center } from "@react-three/drei";
+import { Float, ContactShadows, Center, Html, Environment, Lightformer } from "@react-three/drei";
 import { Model } from "./Model";
+import FloatingLines from "./FloatingLines";
 
 function MouseRig({ children }) {
   const group = useRef();
@@ -95,8 +96,27 @@ export default function NexusEcoHero() {
       <style>{styles}</style>
       <div className="w-full h-screen max-h-screen relative overflow-hidden flex flex-col [font-family:'Montserrat',sans-serif] bg-[linear-gradient(160deg,#f0f6ff_0%,#e8f2fe_30%,#ddeeff_60%,#f5faff_100%)]">
 
+        {/* ── FLOATING LINES BACKGROUND ── */}
+        <div className="absolute inset-0 z-0 pointer-events-none opacity-60">
+          <FloatingLines 
+           enabledWaves={["middle"]}
+                  // Array - specify line count per wave; Number - same count for all waves
+                  lineCount={10}
+                  // Array - specify line distance per wave; Number - same distance for all waves
+                  lineDistance={24}
+                  bendRadius={10}
+                  bendStrength={15}
+                  interactive={false}
+                  parallax={true}
+                  animationSpeed={3.9}
+                  // Fixed the props (FloatingLines uses linesGradient, not gradientStart/End)
+                  linesGradient={['#1d4171', '#151a21', '#D6B852']}
+                  mixBlendMode="normal"
+          />
+        </div>
+
         {/* ── WAVES ── */}
-        <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 pointer-events-none z-0">
           <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
             <path className="wave-gold"
               d="M800,520 C900,480 1000,420 1100,400 C1200,380 1300,420 1400,460 C1500,500 1550,560 1600,600"
@@ -161,24 +181,43 @@ export default function NexusEcoHero() {
           {/* Removed max-h-[600px] to allow the 3D canvas to expand further down without getting cut off */}
           <div className="flex flex-col items-center justify-center w-[clamp(300px,50vw,700px)] h-full w-full relative z-20">
             <Canvas camera={{ position: [0, 0, 15], fov: 45 }}>
-              <ambientLight intensity={0.5} />
-              <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
+              <ambientLight intensity={1.5} />
+              <spotLight position={[10, 20, 10]} angle={0.2} penumbra={1} intensity={2.5} />
+              <directionalLight position={[-10, 10, -5]} intensity={1.5} />
+              <pointLight position={[0, -5, 5]} intensity={0.8} />
               
-              {/* Follows the mouse cursor seamlessly */}
-              <MouseRig>
-                {/* Floating up and down infinitely */}
-                {/* Kept speed high, but reduced the vertical travel distance so it stays in frame */}
-                <Float speed={4.5} rotationIntensity={0.8} floatIntensity={1} floatingRange={[0, 0.8]}>
-                  {/* <Center> fixes any absurd pivot offsets inside the 3D model */}
-                  <Center position={[0, -1.5, 0]}>
-                    <group scale={11}>
-                      <Model />
-                    </group>
-                  </Center>
-                </Float>
-              </MouseRig>
-              
-              <Environment preset="city" />
+              <Suspense fallback={
+                <Html center>
+                  <div className="flex flex-col items-center gap-2 min-w-[200px]">
+                    <div className="w-8 h-8 rounded-full border-4 border-[#4a6fa5] border-t-transparent animate-spin"></div>
+                    <span className="text-[#4a6fa5] font-bold text-sm tracking-widest uppercase">Loading 3D</span>
+                  </div>
+                </Html>
+              }>
+                {/* Follows the mouse cursor seamlessly */}
+                <MouseRig>
+                  {/* Floating up and down infinitely */}
+                  {/* Kept speed high, but reduced the vertical travel distance so it stays in frame */}
+                  <Float speed={4.5} rotationIntensity={0.8} floatIntensity={1} floatingRange={[0, 0.8]}>
+                    {/* <Center> fixes any absurd pivot offsets inside the 3D model */}
+                    <Center position={[0, -1.5, 0]}>
+                      <group scale={11}>
+                        <Model />
+                      </group>
+                    </Center>
+                  </Float>
+                </MouseRig>
+                
+                {/* Replaced 'city' preset with a lightweight generated environment to avoid network fetch failures */}
+                <Environment resolution={256}>
+                  <group rotation={[-Math.PI / 2, 0, 0]}>
+                    <Lightformer intensity={4} rotation-x={Math.PI / 2} position={[0, 5, -9]} scale={[10, 10, 1]} />
+                    <Lightformer intensity={2} rotation-y={Math.PI / 2} position={[-5, 1, -1]} scale={[20, 0.1, 1]} />
+                    <Lightformer rotation-y={Math.PI / 2} position={[-5, -1, -1]} scale={[20, 0.5, 1]} />
+                    <Lightformer rotation-y={-Math.PI / 2} position={[10, 1, 0]} scale={[20, 1, 1]} />
+                  </group>
+                </Environment>
+              </Suspense>
             </Canvas>
           </div>
         </div>
